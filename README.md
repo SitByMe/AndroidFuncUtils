@@ -3,13 +3,13 @@ Android功能代码集合
 
 #### 1. 权限管理</br>
 依赖：
-```
+```Java
 implementation 'com.github.tbruyelle:rxpermissions:0.10.2'
 ```
 **注意**：未在AndroidManifest.xml中添加的权限，均会被认定为被禁止的不再询问。</br>
 使用：</br>
 （1）注册RxPermissions
-```
+```Java
  protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -18,7 +18,7 @@ implementation 'com.github.tbruyelle:rxpermissions:0.10.2'
     }
 ```
 （2）调用PermissionsUtils的方法进行权限检测并监听更改
-```
+```Java
 private void requestPermissions(final RxPermissions rxPermissions) {
         PermissionsUtils.setOnPermissionsRequestResultListener(rxPermissions, new PermissionsUtils.OnPermissionsRequestResultListener() {
             @Override
@@ -41,7 +41,7 @@ private void requestPermissions(final RxPermissions rxPermissions) {
 
 #### 2. 下载管理</br>
 （1）配置下载管理器
-```
+```Java
     /*使用DownLoadManager时只能通过DownLoadService.getDownLoadManager()的方式来获取下载管理器，不能通过new DownLoadManager()的方式创建下载管理器*/
     private DownLoadManager manager;
 
@@ -69,14 +69,14 @@ private void requestPermissions(final RxPermissions rxPermissions) {
     };
 ```
 （2）初始化管理页面
-```
+```Java
 // 获取需要管理的数据，参数containsDownloaded为是否要包含已经下载完成的数据
 listData = downLoadManager.getAllTask(containsDownloaded);
 // 为下载管理任务设置监听器
 downLoadManager.setAllTaskListener(new DownloadManagerListener());
 ```
 （3）重写监听器
-```
+```Java
     private class DownloadManagerListener implements DownLoadListener {
 
         @Override
@@ -130,7 +130,7 @@ downLoadManager.setAllTaskListener(new DownloadManagerListener());
     }
 ```
 （4）继续下载和停止下载
-```
+```Java
 // 继续下载
 listData.get(position).setOnDownloading(true);
 downLoadManager.startTask(listData.get(position).getTaskID());
