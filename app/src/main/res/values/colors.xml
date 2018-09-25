@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <!-- base colors -->
+    <color name="transparent">#00FFFFFF</color>
+    <color name="white">#ffffff</color>
+    <color name="deep_black">#303030</color>
+    <color name="black">#666465</color>
+    <color name="deep_green">#34C94D</color>
+    <color name="green">#50BE06</color>
+    <color name="orange">#FF8522</color>
+    <color name="blue">#29B6F6</color>
+    <color name="deep_red">#F62630</color>
+    <color name="red">#FF5143</color>
+    <color name="red_light">#FF765C</color>
+    <color name="gray">#9B9B9B</color>
+    <color name="gray_light">#AEABAB</color>
+    <color name="transparent_green">#3350BE06</color>
+
+    <!-- *********** 背景颜色 *********** -->
+    <color name="color_bg_transparent">@color/transparent</color>
+    <color name="bg_color_white">@color/white</color>
+    <color name="bg_color_gray">#F5F5F5</color>
+    <color name="bg_color_red">@color/red</color>
+    <color name="bg_color_gray_transparent">#661c1b1b</color>
+    <color name="bg_color_search_bar">@color/bg_color_gray</color>
+    <color name="bg_color_edit_text">#F1F1F1</color>
+
+    <!-- *********** 文字颜色 *********** -->
+    <color name="text_color_deep">@color/deep_black</color>
+    <color name="text_color_normal">@color/black</color>
+    <color name="text_color_green">@color/colorPrimary</color>
+    <color name="text_color_white">@color/white</color>
+    <color name="text_color_red">@color/red</color>
+    <color name="text_color_orange">@color/orange</color>
+    <color name="text_color_blue">@color/blue</color>
+</resources>

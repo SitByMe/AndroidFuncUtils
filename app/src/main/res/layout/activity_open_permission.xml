@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_round_10_transparent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_round_10_white"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_permission"
+            android:scaleType="fitXY" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="46px"
+            android:gravity="center_horizontal"
+            android:text="设备需要以下权限，请先开启："
+            android:textColor="@color/text_color_deep"
+            android:textSize="36px"
+            android:textStyle="bold" />
+
+        <GridView
+            android:id="@+id/gv_permissions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="36px"
+            android:layout_marginTop="36px"
+            android:divider="@null"
+            android:numColumns="2" />
+
+        <include layout="@layout/divider_horizontal" />
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/ok"
+            android:layout_width="360px"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="30px"
+            android:layout_marginTop="28px"
+            android:background="@drawable/bg_round_40_primary"
+            android:onClick="okClick"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="ok"
+            android:textColor="@color/colorPrimary"
+            android:textSize="36px" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/iv_close"
+        android:layout_width="40dp"
+        android:onClick="closeAct"
+        android:layout_height="40dp"
+        android:layout_marginTop="20dp"
+        android:background="@mipmap/icon_cancel_permission" />
+</LinearLayout>
