@@ -51,4 +51,8 @@ public class NonUtils {
     public static boolean isEmpty(Set<?> s) {
         return null == s || s.size() == 0;
     }
+
+    public static boolean isEmpty(Object[] o) {
+        return null == o || o.length == 0;
+    }
 }

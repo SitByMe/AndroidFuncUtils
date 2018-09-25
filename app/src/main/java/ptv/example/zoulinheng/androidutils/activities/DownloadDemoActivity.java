@@ -95,7 +95,7 @@ public class DownloadDemoActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         manager.changeUser("zohar");
                         btnUser.setText("用户: ".concat("zohar"));
-                        adapter.setListData(manager.getAllTask());
+                        adapter.setListData(manager.getAllTask(true));
 
                     }
                 }).setNegativeButton(Constants.USER_ROOT, new DialogInterface.OnClickListener() {
@@ -103,7 +103,7 @@ public class DownloadDemoActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
                 manager.changeUser(Constants.USER_ROOT);
                 btnUser.setText("用户 : ".concat(Constants.USER_ROOT));
-                adapter.setListData(manager.getAllTask());
+                adapter.setListData(manager.getAllTask(true));
             }
         }).show();
     }

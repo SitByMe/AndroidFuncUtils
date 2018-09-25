@@ -30,7 +30,7 @@ public class DownLoader {
     private int TASK_SUCCESS = 4;
 
     // 文件暂存路径
-    private final String TEMP_FILEPATH = FileHelper.getTempDirPath();
+    private final String TEMP_FILEPATH = FileHelper.getDownloadFileCachePath();
 
     // 标识服务器是否支持断点续传
     private boolean isSupportBreakpoint;

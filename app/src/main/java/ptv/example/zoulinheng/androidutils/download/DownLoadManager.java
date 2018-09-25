@@ -12,6 +12,7 @@ import ptv.example.zoulinheng.androidutils.download.dbcontrol.bean.SQLDownLoadIn
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -254,9 +255,10 @@ public class DownLoadManager {
     /**
      * 获取当前任务列表的所有任务，以TaskInfo列表的方式返回
      *
+     * @param containsDownloaded 是否包含已下载的内容
      * @return
      */
-    public ArrayList<TaskInfo> getAllTask() {
+    public ArrayList<TaskInfo> getAllTask(boolean containsDownloaded) {
         ArrayList<TaskInfo> taskInfoList = new ArrayList<>();
         int listSize = taskList.size();
         for (int i = 0; i < listSize; i++) {
@@ -268,9 +270,32 @@ public class DownLoadManager {
             taskinfo.setTaskID(sqldownloadinfo.getTaskID());
             taskinfo.setFileSize(sqldownloadinfo.getFileSize());
             taskinfo.setDownFileSize(sqldownloadinfo.getDownloadSize());
+            // 这段代码是为了修正数据
+            if (taskinfo.downloadCompleted() && !FileHelper.fileIsExisted(sqldownloadinfo.getTaskID(), sqldownloadinfo.getFileName())) {
+                deleteTask(sqldownloadinfo.getTaskID());
+                FileHelper.deleteBook(this, sqldownloadinfo.getTaskID(), sqldownloadinfo.getFileName());
+                continue;
+            }
             taskInfoList.add(taskinfo);
         }
+        if (containsDownloaded) {
+            List<TaskInfo> localTaskList = new ArrayList<>();
+            local:
+            for (TaskInfo localTaskInfo : FileHelper.detectLocalRes()) {
+                for (TaskInfo taskInfo : taskInfoList) {
+                    if (taskInfo.getTaskID().equals(localTaskInfo.getTaskID())) {
+                        continue local;
+                    }
+                }
+                localTaskList.add(localTaskInfo);
+            }
+            taskInfoList.addAll(localTaskList);
+        }
         return taskInfoList;
+    }
+
+    public ArrayList<TaskInfo> getAllTask() {
+        return getAllTask(false);
     }
 
     /**

@@ -19,14 +19,16 @@ import ptv.example.zoulinheng.androidutils.download.TaskInfo;
 import ptv.example.zoulinheng.androidutils.download.dbcontrol.bean.SQLDownLoadInfo;
 
 public class DownloadListAdapter extends BaseAdapter {
+    private boolean containsDownloaded;
     private ArrayList<TaskInfo> listData;
     private Context myContext;
     private DownLoadManager downLoadManager;
 
     public DownloadListAdapter(Context context, DownLoadManager downLoadManager) {
+        containsDownloaded = true;
         this.myContext = context;
         this.downLoadManager = downLoadManager;
-        listData = downLoadManager.getAllTask();
+        listData = downLoadManager.getAllTask(containsDownloaded);
         downLoadManager.setAllTaskListener(new DownloadManagerListener());
     }
 
@@ -60,13 +62,22 @@ public class DownloadListAdapter extends BaseAdapter {
             holder = (Holder) convertView.getTag();
         }
         holder.fileName.setText(listData.get(position).getFileName());
-        holder.fileProgress.setProgress(listData.get(position).getProgress());
-        holder.textProgress.setText(String.valueOf(listData.get(position).getProgress()).concat("%"));
         holder.downloadIcon.setOnCheckedChangeListener(new CheckedChangeListener(position));
-        if (listData.get(position).isOnDownloading()) {
-            holder.downloadIcon.setChecked(true);
+        if (listData.get(position).downloadCompleted()) {
+            holder.fileProgress.setVisibility(View.INVISIBLE);
+            holder.fileProgress.setProgress(100);
+            holder.textProgress.setText("下载完成");
+            holder.downloadIcon.setVisibility(View.INVISIBLE);
         } else {
-            holder.downloadIcon.setChecked(false);
+            holder.fileProgress.setVisibility(View.VISIBLE);
+            holder.fileProgress.setProgress(listData.get(position).getProgress());
+            holder.textProgress.setText(String.valueOf(listData.get(position).getProgress()).concat("%"));
+            holder.downloadIcon.setVisibility(View.VISIBLE);
+            if (listData.get(position).isOnDownloading()) {
+                holder.downloadIcon.setChecked(true);
+            } else {
+                holder.downloadIcon.setChecked(false);
+            }
         }
         return convertView;
     }
@@ -140,7 +151,9 @@ public class DownloadListAdapter extends BaseAdapter {
             //根据监听到的信息查找列表相对应的任务，删除对应的任务
             for (TaskInfo taskInfo : listData) {
                 if (taskInfo.getTaskID().equals(sqlDownLoadInfo.getTaskID())) {
-                    listData.remove(taskInfo);
+                    if (!containsDownloaded) {
+                        listData.remove(taskInfo);
+                    }
                     DownloadListAdapter.this.notifyDataSetChanged();
                     break;
                 }

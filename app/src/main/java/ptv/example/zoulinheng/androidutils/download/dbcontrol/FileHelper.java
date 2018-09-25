@@ -5,9 +5,14 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 import ptv.example.zoulinheng.androidutils.Constants;
+import ptv.example.zoulinheng.androidutils.download.DownLoadManager;
+import ptv.example.zoulinheng.androidutils.download.TaskInfo;
+import ptv.example.zoulinheng.androidutils.utils.baseutils.NonUtils;
+import ptv.example.zoulinheng.androidutils.utils.deviceutils.FileUtils;
 
 /**
  * Created by lhZou on 2018/8/28.
@@ -15,12 +20,12 @@ import ptv.example.zoulinheng.androidutils.Constants;
  */
 public class FileHelper {
     private static String userID = Constants.USER_ROOT;
-    private static String baseFilePath = Constants.BASE_DOWNLOAD_PATH;
-    private static String downloadFilePath = baseFilePath + "/" + userID + "/FILETEMP";
+    private static String baseDownloadFilePath = Constants.BASE_DOWNLOAD_PATH;
+    private static String downloadFileSavePath = baseDownloadFilePath.concat("/").concat(userID).concat("/FILETEMP");
     /**
      * 下载文件的临时路径
      */
-    private static String tempDirPath = baseFilePath + "/" + userID + "/TEMPDir";
+    private static String downloadFileCachePath = baseDownloadFilePath.concat("/").concat(userID).concat("/TEMPDir");
 
     private static String[] wrongChars = {"/", "\\", "*", "?", "<", ">", "\"", "|"};
 
@@ -77,14 +82,14 @@ public class FileHelper {
      * 获取默认文件存放路径
      */
     public static String getFileDefaultPath() {
-        return downloadFilePath;
+        return downloadFileSavePath;
     }
 
     /**
      * 获取下载文件的临时路径
      */
-    public static String getTempDirPath() {
-        return tempDirPath;
+    public static String getDownloadFileCachePath() {
+        return downloadFileCachePath;
     }
 
     /**
@@ -133,8 +138,8 @@ public class FileHelper {
 
     public static void setUserID(String newUserID) {
         userID = newUserID;
-        downloadFilePath = baseFilePath + "/" + userID + "/FILETEMP";
-        tempDirPath = baseFilePath + "/" + userID + "/TEMPDir";
+        downloadFileSavePath = baseDownloadFilePath + "/" + userID + "/FILETEMP";
+        downloadFileCachePath = baseDownloadFilePath + "/" + userID + "/TEMPDir";
     }
 
     public static String getUserID() {
@@ -173,5 +178,78 @@ public class FileHelper {
             }
         }
         return flieName;
+    }
+
+    /**
+     * 检测已经下载好的内容
+     *
+     * @return
+     */
+    public static List<TaskInfo> detectLocalRes() {
+        List<TaskInfo> localTaskList = new ArrayList<>();
+        File fileDir = new File(downloadFileSavePath);
+        File[] files = fileDir.listFiles();
+        if (!NonUtils.isEmpty(files)) {
+            for (File file : files) {
+                System.out.println("------------：" + file.getPath());
+                TaskInfo taskInfo = new TaskInfo();
+                taskInfo.setFileName(file.getName());
+                taskInfo.setTaskID(file.getName());
+                taskInfo.setOnDownloading(false);
+                localTaskList.add(taskInfo);
+            }
+        }
+        return localTaskList;
+    }
+
+
+    /**
+     * 判断文件是否已经存在
+     *
+     * @param taskId   文件id
+     * @param fileName 文件名称
+     * @return
+     */
+    public static boolean fileIsExisted(String taskId, String fileName) {
+        File file = new File(downloadFileSavePath.concat("/").concat("(").concat(taskId).concat(")").concat(fileName));
+        return file.exists();
+    }
+
+    /**
+     * 删除文件
+     *
+     * @param bookId   文件id
+     * @param fileName 文件名称
+     */
+    public static void deleteBook(DownLoadManager manager, String bookId, String fileName) {
+        manager.deleteTask(bookId);
+
+        File a = new File(getBookDownloadFilePath(bookId, fileName));
+        File b = new File(getBookDownloadCacheFilePath(bookId, fileName));
+
+        FileUtils.deleteFile(a);
+        FileUtils.deleteDir(b);
+    }
+
+    /**
+     * 根据文件名称获取文件下载后存储的路径
+     *
+     * @param fileName 文件名称
+     * @return 文件下载后存储的路径
+     */
+    public static String getBookDownloadFilePath(String bookId, String fileName) {
+        String trueFileName = "(" + bookId + ")" + fileName;
+        return downloadFileSavePath.concat("/").concat(trueFileName);
+    }
+
+    /**
+     * 根据文件名称获取文件下载后存储的路径
+     *
+     * @param fileName 文件名称
+     * @return 文件下载后存储的路径
+     */
+    public static String getBookDownloadCacheFilePath(String bookId, String fileName) {
+        String trueFileName = "(" + bookId + ")" + fileName;
+        return downloadFileCachePath.concat("/").concat(trueFileName);
     }
 }
