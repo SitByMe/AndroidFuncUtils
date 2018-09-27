@@ -141,3 +141,48 @@ listData.get(position).setOnDownloading(false);
 downLoadManager.stopTask(listData.get(position).getTaskID());
 // do something to refresh the views.
 ```
+#### 3. 压缩/解压缩</br>
+（1）压缩
+```
+/**
+ * @param inputFileName 你要压缩的文件夹路径（整个完整路径）
+ * @param zipFileName   压缩后的文件路径（整个完整路径）
+ */
+new Thread(new Runnable() {
+    @Override
+    public void run() {
+        ZipUtils.zip(inputFileName, zipFileName);
+        LogUtils.i(taskInfo.getFileName().concat("压缩成功！"));
+    }
+}).start();
+```
+（2）解压缩
+```
+/**
+ * @param zipFileString 需要解压的文件路径
+ * @param outPathString 解压后文件保存的路径
+ * @param listener      加压监听
+ */
+ZipUtils.UnZipFile(zipFileString, outPathString,
+        new ZipUtils.ZipListener() {
+            public void zipSuccess() {
+                System.out.println("success!");
+            }
+
+            public void zipStart() {
+                System.out.println("start!");
+            }
+
+            public void zipProgress(int progress) {
+                // 通过handle发送解压进度
+                Message message = new Message();
+                message.what = 1;
+                message.obj = String.valueOf(progress).concat("%");
+                handler.sendMessage(message);
+            }
+
+            public void zipFail() {
+                System.out.println("failed!");
+            }
+        });
+```
