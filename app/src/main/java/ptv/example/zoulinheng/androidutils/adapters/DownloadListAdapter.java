@@ -9,6 +9,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -16,7 +17,11 @@ import ptv.example.zoulinheng.androidutils.R;
 import ptv.example.zoulinheng.androidutils.download.DownLoadListener;
 import ptv.example.zoulinheng.androidutils.download.DownLoadManager;
 import ptv.example.zoulinheng.androidutils.download.TaskInfo;
+import ptv.example.zoulinheng.androidutils.download.dbcontrol.FileHelper;
 import ptv.example.zoulinheng.androidutils.download.dbcontrol.bean.SQLDownLoadInfo;
+import ptv.example.zoulinheng.androidutils.utils.baseutils.LogUtils;
+import ptv.example.zoulinheng.androidutils.utils.viewutils.ToastUtils;
+import ptv.example.zoulinheng.androidutils.utils.zip.ZipUtils;
 
 public class DownloadListAdapter extends BaseAdapter {
     private boolean containsDownloaded;
@@ -155,6 +160,11 @@ public class DownloadListAdapter extends BaseAdapter {
                         listData.remove(taskInfo);
                     }
                     DownloadListAdapter.this.notifyDataSetChanged();
+                    if (ZipUtils.isZip(taskInfo.getFileName())) {
+                        unZip(taskInfo);
+                    }
+                    ToastUtils.showShort(taskInfo.getFileName().concat("-下载完成"));
+                    LogUtils.i(taskInfo.getFileName().concat("-下载完成"));
                     break;
                 }
             }
@@ -171,5 +181,38 @@ public class DownloadListAdapter extends BaseAdapter {
                 }
             }
         }
+    }
+
+    private void unZip(final TaskInfo taskInfo) {
+        ZipUtils.UnZipFile(FileHelper.getDownloadFileSavePath(taskInfo.getTaskID(), taskInfo.getFileName()), FileHelper.getFileUnZipPath(taskInfo.getTaskID()),
+                new ZipUtils.ZipListener() {
+                    public void zipSuccess() {
+                        System.out.println("success!");
+                        ToastUtils.showShort(taskInfo.getTaskID().concat("_").concat(taskInfo.getFileName()).concat("_").concat("解压完成"));
+                        LogUtils.i(taskInfo.getTaskID().concat("_").concat(taskInfo.getFileName()).concat("_").concat("解压完成"));
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                ZipUtils.zip(FileHelper.getFileUnZipPath(taskInfo.getTaskID()), FileHelper.getFileZipFilePath(taskInfo.getFileName()));//你要压缩的文件夹 和 压缩后的文件
+                                LogUtils.i(taskInfo.getFileName().concat("压缩成功！"));
+                            }
+                        }).start();
+                    }
+
+                    public void zipStart() {
+                        System.out.println("start!");
+                    }
+
+                    public void zipProgress(int progress) {
+                       /* Message message = new Message();
+                        message.what = 1;
+                        message.obj = String.valueOf(progress).concat("%");
+                        handler.sendMessage(message);*/
+                    }
+
+                    public void zipFail() {
+                        System.out.println("failed!");
+                    }
+                });
     }
 }

@@ -224,8 +224,8 @@ public class FileHelper {
     public static void deleteBook(DownLoadManager manager, String bookId, String fileName) {
         manager.deleteTask(bookId);
 
-        File a = new File(getBookDownloadFilePath(bookId, fileName));
-        File b = new File(getBookDownloadCacheFilePath(bookId, fileName));
+        File a = new File(getDownloadFileSavePath(bookId, fileName));
+        File b = new File(getDownloadFileCachePath(bookId, fileName));
 
         FileUtils.deleteFile(a);
         FileUtils.deleteDir(b);
@@ -237,7 +237,7 @@ public class FileHelper {
      * @param fileName 文件名称
      * @return 文件下载后存储的路径
      */
-    public static String getBookDownloadFilePath(String bookId, String fileName) {
+    public static String getDownloadFileSavePath(String bookId, String fileName) {
         String trueFileName = "(" + bookId + ")" + fileName;
         return downloadFileSavePath.concat("/").concat(trueFileName);
     }
@@ -248,8 +248,28 @@ public class FileHelper {
      * @param fileName 文件名称
      * @return 文件下载后存储的路径
      */
-    public static String getBookDownloadCacheFilePath(String bookId, String fileName) {
+    public static String getDownloadFileCachePath(String bookId, String fileName) {
         String trueFileName = "(" + bookId + ")" + fileName;
         return downloadFileCachePath.concat("/").concat(trueFileName);
+    }
+
+    /**
+     * 获取文件解压后的路径
+     *
+     * @param fileId 文件id
+     * @return
+     */
+    public static String getFileUnZipPath(String fileId) {
+        return Constants.BASE_DOWNLOAD_UN_ZIP_PATH.concat("/").concat(fileId);
+    }
+
+    /**
+     * 获取文件压缩后存放的路径
+     *
+     * @param fileId 文件id
+     * @return
+     */
+    public static String getFileZipFilePath(String fileId) {
+        return Constants.BASE_DOWNLOAD_ZIP_PATH.concat("/").concat(fileId);
     }
 }
