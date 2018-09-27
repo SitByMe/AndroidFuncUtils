@@ -143,7 +143,7 @@ downLoadManager.stopTask(listData.get(position).getTaskID());
 ```
 #### 3. 压缩/解压缩</br>
 （1）压缩
-```
+```Java
 /**
  * @param inputFileName 你要压缩的文件夹路径（整个完整路径）
  * @param zipFileName   压缩后的文件路径（整个完整路径）
@@ -157,7 +157,7 @@ new Thread(new Runnable() {
 }).start();
 ```
 （2）解压缩
-```
+```Java
 /**
  * @param zipFileString 需要解压的文件路径
  * @param outPathString 解压后文件保存的路径
