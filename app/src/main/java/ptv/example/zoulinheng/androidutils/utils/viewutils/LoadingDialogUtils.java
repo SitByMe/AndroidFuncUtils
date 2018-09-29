@@ -1,37 +1,40 @@
 package ptv.example.zoulinheng.androidutils.utils.viewutils;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
+import android.app.Dialog;
+import android.view.View;
 
 import java.lang.ref.WeakReference;
+
+import ptv.example.zoulinheng.androidutils.R;
 
 /**
  * Created by lhZou on 2018/8/17.
  * desc:
  */
-public class ProgressDialogUtils {
+public class LoadingDialogUtils {
     /**
      * 数据访问等待框
      */
-    private static ProgressDialog loadingDialog;
+    private static Dialog loadingDialog;
     private static WeakReference<Activity> reference;
 
     private static int count = 0;
 
-    private static ProgressDialogUtils mInstance;
+    private static LoadingDialogUtils mInstance;
 
-    public static ProgressDialogUtils getInstance(Activity act) {
+    public static LoadingDialogUtils getInstance(Activity act) {
         if (mInstance == null || loadingDialogIsNull()) {
-            synchronized (ProgressDialogUtils.class) {
+            synchronized (LoadingDialogUtils.class) {
                 if (mInstance == null || loadingDialogIsNull()) {
-                    mInstance = new ProgressDialogUtils(act);
+                    mInstance = new LoadingDialogUtils(act);
                 }
             }
         }
         return mInstance;
     }
 
-    private ProgressDialogUtils(Activity act) {
+    private LoadingDialogUtils(Activity act) {
         init(act);
     }
 
@@ -39,7 +42,10 @@ public class ProgressDialogUtils {
         if (loadingDialogIsNull()) {
             reference = new WeakReference<>(act);
 
-            loadingDialog = new ProgressDialog(reference.get());
+            View vi = act.getLayoutInflater().inflate(R.layout.loading_dialog, null);
+            loadingDialog = new Dialog(reference.get(), R.style.loading_dialog);
+            loadingDialog.setCanceledOnTouchOutside(false);
+            loadingDialog.setContentView(vi);
             loadingDialog.setCancelable(false);
         }
     }
@@ -56,11 +62,9 @@ public class ProgressDialogUtils {
     /**
      * 显示等待框
      */
-    public void show(CharSequence title, CharSequence message) {
+    public void show() {
         count++;
         System.out.println("progressView   show   count = " + count);
-        loadingDialog.setTitle(title);
-        loadingDialog.setMessage(message);
         if (!loadingDialog.isShowing()) {
             loadingDialog.show();
         }
