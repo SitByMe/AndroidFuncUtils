@@ -5,13 +5,15 @@ import android.app.ProgressDialog;
 
 import java.lang.ref.WeakReference;
 
+import ptv.example.zoulinheng.androidutils.utils.baseutils.LogUtils;
+
 /**
  * Created by lhZou on 2018/8/17.
- * desc:
+ * desc:带文字的数据访问等待框工具类
  */
 public class ProgressDialogUtils {
     /**
-     * 数据访问等待框
+     * 带文字的数据访问等待框
      */
     private static ProgressDialog loadingDialog;
     private static WeakReference<Activity> reference;
@@ -45,7 +47,8 @@ public class ProgressDialogUtils {
     }
 
     private static boolean loadingDialogIsNull() {
-        return loadingDialog == null || reference == null || reference.get() == null || reference.get().isFinishing();
+        //  || reference.get().isFinishing()
+        return loadingDialog == null || reference == null || reference.get() == null;
     }
 
     public void setCancelable(boolean b) {
@@ -58,7 +61,7 @@ public class ProgressDialogUtils {
      */
     public void show(CharSequence title, CharSequence message) {
         count++;
-        System.out.println("progressView   show   count = " + count);
+        LogUtils.i("progressView   show   count = " + count);
         loadingDialog.setTitle(title);
         loadingDialog.setMessage(message);
         if (!loadingDialog.isShowing()) {
@@ -71,7 +74,7 @@ public class ProgressDialogUtils {
      */
     public void dismiss() {
         count--;
-        System.out.println("progressView   dismiss   count = " + count);
+        LogUtils.i("progressView   dismiss   count = " + count);
         if (count <= 0) {
             count = 0;
             if (loadingDialog != null && loadingDialog.isShowing()) {

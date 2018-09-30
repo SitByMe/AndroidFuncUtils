@@ -7,10 +7,11 @@ import android.view.View;
 import java.lang.ref.WeakReference;
 
 import ptv.example.zoulinheng.androidutils.R;
+import ptv.example.zoulinheng.androidutils.utils.baseutils.LogUtils;
 
 /**
  * Created by lhZou on 2018/8/17.
- * desc:
+ * desc:数据访问等待框工具类
  */
 public class LoadingDialogUtils {
     /**
@@ -64,7 +65,7 @@ public class LoadingDialogUtils {
      */
     public void show() {
         count++;
-        System.out.println("progressView   show   count = " + count);
+        LogUtils.i("loadingView   show   count = " + count);
         if (!loadingDialog.isShowing()) {
             loadingDialog.show();
         }
@@ -73,9 +74,9 @@ public class LoadingDialogUtils {
     /**
      * 隐藏等待框
      */
-    public void dismiss() {
+    public void dismiss(Activity act) {
         count--;
-        System.out.println("progressView   dismiss   count = " + count);
+        LogUtils.i("loadingView   dismiss   count = " + count);
         if (count <= 0) {
             count = 0;
             if (loadingDialog != null && loadingDialog.isShowing()) {
@@ -87,8 +88,8 @@ public class LoadingDialogUtils {
     /**
      * 注销加载框，避免发生内存泄露
      */
-    public void unInit() {
-        dismiss();
+    public void unInit(Activity act) {
+        dismiss(act);
         loadingDialog = null;
         reference.clear();
         reference = null;
