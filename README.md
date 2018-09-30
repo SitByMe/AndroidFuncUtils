@@ -186,3 +186,33 @@ ZipUtils.UnZipFile(zipFileString, outPathString,
             }
         });
 ```
+#### 4. 数据访问等待框</br>
+（1）数据访问等待框（LoadingDialogUtils）</br>
+**注意**：需要在onDestroy方法中需要调用unInit方法：
+```Java
+@Override
+protected void onDestroy() {
+    super.onDestroy();
+    LoadingDialogUtils.getInstance(this).unInit(this);
+}
+```
+显示：
+```Java
+runOnUiThread(new Runnable() {
+    @Override
+    public void run() {
+        LoadingDialogUtils.getInstance(BaseActivity.this).show();
+    }
+});
+```
+隐藏：
+```Java
+runOnUiThread(new Runnable() {
+    @Override
+    public void run() {
+        LoadingDialogUtils.getInstance(BaseActivity.this).dismiss(BaseActivity.this);
+    }
+});
+```
+（2）带文字的数据访问等待框（ProgressDialogUtils）</br>
+使用方法和（1）相同。
