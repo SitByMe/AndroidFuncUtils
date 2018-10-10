@@ -18,8 +18,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import ptv.example.zoulinheng.androidutils.utils.permissions.PermissionsUtils;
-
 public class Utils {
 
     @SuppressLint("StaticFieldLeak")
@@ -84,13 +82,7 @@ public class Utils {
                 throw new NullPointerException("u should init first");
             }
             return (Application) app;
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
+        } catch (NoSuchMethodException | IllegalAccessException | ClassNotFoundException | InvocationTargetException e) {
             e.printStackTrace();
         }
         throw new NullPointerException("u should init first");
@@ -300,15 +292,7 @@ public class Utils {
                         return (Activity) activityField.get(activityRecord);
                     }
                 }
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            } catch (InvocationTargetException e) {
-                e.printStackTrace();
-            } catch (NoSuchMethodException e) {
-                e.printStackTrace();
-            } catch (NoSuchFieldException e) {
+            } catch (ClassNotFoundException | IllegalAccessException | InvocationTargetException | NoSuchMethodException | NoSuchFieldException e) {
                 e.printStackTrace();
             }
             return null;

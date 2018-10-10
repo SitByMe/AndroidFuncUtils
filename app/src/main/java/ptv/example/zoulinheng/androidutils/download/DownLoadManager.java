@@ -124,7 +124,7 @@ public class DownLoadManager {
         this.userID = userID;
         SharedPreferences.Editor editor = sharedPreferences.edit();// 获取编辑器
         editor.putString("UserID", userID);
-        editor.commit();// 提交修改
+        editor.apply();// 提交修改
         FileHelper.setUserID(userID);
         recoverData(myContext, userID);
     }

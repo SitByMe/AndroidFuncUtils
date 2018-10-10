@@ -1,4 +1,4 @@
-package com.niugeyin.dcenter.utils;
+package ptv.example.zoulinheng.androidutils.utils.apputils;
 
 import android.content.Context;
 import android.content.SharedPreferences;

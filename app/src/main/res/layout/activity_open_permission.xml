@@ -47,7 +47,6 @@
             android:layout_marginBottom="30px"
             android:layout_marginTop="28px"
             android:background="@drawable/bg_round_40_primary"
-            android:onClick="okClick"
             android:gravity="center"
             android:padding="10dp"
             android:text="ok"
@@ -58,7 +57,6 @@
     <ImageView
         android:id="@+id/iv_close"
         android:layout_width="40dp"
-        android:onClick="closeAct"
         android:layout_height="40dp"
         android:layout_marginTop="20dp"
         android:background="@mipmap/icon_cancel_permission" />

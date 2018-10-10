@@ -14,7 +14,6 @@ import java.util.zip.Deflater;
 import ptv.example.zoulinheng.androidutils.Constants;
 import ptv.example.zoulinheng.androidutils.utils.baseutils.LogUtils;
 import ptv.example.zoulinheng.androidutils.utils.deviceutils.FileUtils;
-import ptv.example.zoulinheng.androidutils.utils.viewutils.ToastUtils;
 
 /**
  * Created by lhZou on 2018/8/28.
