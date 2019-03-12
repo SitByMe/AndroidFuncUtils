@@ -4,7 +4,16 @@ Android功能代码集合
 #### 1. 权限管理</br>
 依赖：
 ```Java
-implementation 'com.github.tbruyelle:rxpermissions:0.10.2'
+allprojects {
+    repositories {
+        ...
+        maven { url 'https://jitpack.io' }
+    }
+}
+
+dependencies {
+    implementation 'com.github.tbruyelle:rxpermissions:0.10.2'
+}
 ```
 **注意**：未在AndroidManifest.xml中添加的权限，均会被认定为被禁止且不再询问。</br>
 使用：</br>
