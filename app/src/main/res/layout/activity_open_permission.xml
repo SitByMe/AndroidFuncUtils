@@ -40,7 +40,7 @@
 
         <include layout="@layout/divider_horizontal" />
 
-        <android.support.v7.widget.AppCompatTextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/ok"
             android:layout_width="360px"
             android:layout_height="wrap_content"

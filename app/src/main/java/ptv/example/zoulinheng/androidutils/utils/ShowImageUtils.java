@@ -2,7 +2,9 @@ package ptv.example.zoulinheng.androidutils.utils;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.support.annotation.DrawableRes;
+
+import androidx.annotation.DrawableRes;
+
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;

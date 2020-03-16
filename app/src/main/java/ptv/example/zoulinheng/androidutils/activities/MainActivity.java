@@ -1,8 +1,8 @@
 package ptv.example.zoulinheng.androidutils.activities;
 
 import android.app.Activity;
-import android.support.annotation.NonNull;
-import android.support.constraint.ConstraintLayout;
+import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import android.os.Bundle;
 import android.view.View;
 

@@ -2,7 +2,7 @@ package ptv.example.zoulinheng.androidutils.utils.utilsconstants;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.support.annotation.StringDef;
+import androidx.annotation.StringDef;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
