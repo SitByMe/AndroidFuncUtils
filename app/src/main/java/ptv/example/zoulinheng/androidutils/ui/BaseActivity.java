@@ -1,7 +1,8 @@
-package ptv.example.zoulinheng.androidutils.activities;
+package ptv.example.zoulinheng.androidutils.ui;
 
 import android.os.Bundle;
 import android.os.PersistableBundle;
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
