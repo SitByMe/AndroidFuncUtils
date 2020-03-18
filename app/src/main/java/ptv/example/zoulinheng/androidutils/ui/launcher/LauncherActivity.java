@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 
-import com.tbruyelle.rxpermissions2.Permission;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import org.jetbrains.annotations.NotNull;
@@ -23,9 +22,7 @@ import ptv.example.zoulinheng.androidutils.databinding.ActivityLauncherBinding;
 import ptv.example.zoulinheng.androidutils.ui.BaseActivity;
 import ptv.example.zoulinheng.androidutils.utils.apputils.StartActivityUtils;
 import ptv.example.zoulinheng.androidutils.utils.baseutils.LogUtils;
-import ptv.example.zoulinheng.androidutils.utils.helpers.PermissionHelper;
-import ptv.example.zoulinheng.androidutils.utils.permissions.PermissionsUtils;
-import ptv.example.zoulinheng.androidutils.utils.viewutils.ToastUtils;
+import ptv.example.zoulinheng.androidutils.utils.permissions.PermissionHelper;
 import ptv.example.zoulinheng.androidutils.widgets.PermissionPopupWindow;
 
 public class LauncherActivity extends BaseActivity {
@@ -62,6 +59,7 @@ public class LauncherActivity extends BaseActivity {
     }
 
     private void requestPermissions(final RxPermissions rxPermissions) {
+/*
         PermissionsUtils.setOnPermissionsRequestResultListener(rxPermissions, new PermissionsUtils.OnPermissionsRequestResultListener() {
             @Override
             public void allDenied() {
@@ -81,6 +79,7 @@ public class LauncherActivity extends BaseActivity {
                 openPermissionPopupWindow(LauncherActivity.this, binding.clMain, alwaysDeniedPermissions, PermissionPopupWindow.MODE.MODE_TO_SETTING, dismissListener);
             }
         }).requestEachCombined(Constants.permissions);
+*/
     }
 
     private PermissionPopupWindow popupWindow;
@@ -108,7 +107,7 @@ public class LauncherActivity extends BaseActivity {
     }
 
     public void requestPermission2(View view) {
-        ptv.example.zoulinheng.androidutils.utils.permissions.PermissionHelper.Companion.permissions(this,
+        PermissionHelper.Companion.permissions(this,
                 new ptv.example.zoulinheng.androidutils.utils.permissions.PermissionHelper.CallBack() {
 
                     @Override

@@ -2,7 +2,6 @@ package ptv.example.zoulinheng.androidutils.utils.permissions
 
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Build
 import androidx.core.app.ActivityCompat
@@ -89,12 +88,12 @@ class PermissionsUtils private constructor(rxPermissions: RxPermissions, resultL
          * @param permissions 查询目标集合
          * @return 需要询问的权限集合
          */
-        fun getNeedToAskPermissionArray(context: Context, vararg permissions: String): Array<String> {
+        fun getNeedToAskPermissionArray(activity: Activity, vararg permissions: String): Array<String> {
             val pers: MutableList<String> = ArrayList()
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) return pers.toTypedArray()
             val deniedPers = getDeniedPermissions(*permissions)
             for (permission in deniedPers) {
-                if (shouldShowRequestPermissionRationale(context as Activity, permission)) {
+                if (shouldShowRequestPermissionRationale(activity, permission)) {
                     pers.add(permission)
                 }
             }
@@ -104,14 +103,14 @@ class PermissionsUtils private constructor(rxPermissions: RxPermissions, resultL
         /**
          * 获取被禁止的权限集合（询问）
          *
-         * @param context     上下文
+         * @param activity     上下文
          * @param permissions 查询目标集合
          * @return 被禁止的权限集合
          */
-        fun getNoLongerAskPermissionArray(context: Context, vararg permissions: String): Array<String> { //未获取的权限集合（禁止和询问）
+        fun getNoLongerAskPermissionArray(activity: Activity, vararg permissions: String): Array<String> { //未获取的权限集合（禁止和询问）
             val unDeniedPermissions = getDeniedPermissions(*permissions)
             //需要询问的权限集合（询问）
-            val shouldShowPermissions = getNeedToAskPermissionArray(context, *permissions)
+            val shouldShowPermissions = getNeedToAskPermissionArray(activity, *permissions)
             val pers: MutableList<String> = ArrayList()
             for (s in unDeniedPermissions) {
                 if (!isExist(shouldShowPermissions, s)) {
@@ -135,23 +134,23 @@ class PermissionsUtils private constructor(rxPermissions: RxPermissions, resultL
         /**
          * 是否含有需要询问的权限
          *
-         * @param context           上下文
+         * @param activity           上下文
          * @param deniedPermissions 查询目标集合
          * @return
          */
-        fun hasNeedToAskPermission(context: Context, vararg deniedPermissions: String): Boolean {
-            return getNeedToAskPermissionArray(context, *deniedPermissions).isNotEmpty()
+        fun hasNeedToAskPermission(activity: Activity, vararg deniedPermissions: String): Boolean {
+            return getNeedToAskPermissionArray(activity, *deniedPermissions).isNotEmpty()
         }
 
         /**
          * 是否含有被禁止的权限
          *
-         * @param context     上下文
+         * @param activity     上下文
          * @param permissions 查询的权限集合
          * @return
          */
-        fun hasNoLongerAskPermission(context: Context, vararg permissions: String): Boolean {
-            return getNoLongerAskPermissionArray(context, *permissions).isNotEmpty()
+        fun hasNoLongerAskPermission(activity: Activity, vararg permissions: String): Boolean {
+            return getNoLongerAskPermissionArray(activity, *permissions).isNotEmpty()
         }
 
         /**
