@@ -3,9 +3,9 @@ package ptv.example.zoulinheng.androidutils.utils.viewutils;
 import android.app.Activity;
 import android.app.ProgressDialog;
 
-import java.lang.ref.WeakReference;
+import com.blankj.utilcode.util.LogUtils;
 
-import ptv.example.zoulinheng.androidutils.utils.baseutils.LogUtils;
+import java.lang.ref.WeakReference;
 
 /**
  * Created by lhZou on 2018/8/17.

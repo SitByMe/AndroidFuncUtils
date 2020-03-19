@@ -6,10 +6,10 @@ import android.content.pm.PackageManager
 import android.os.Build
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.blankj.utilcode.util.LogUtils
 import com.tbruyelle.rxpermissions2.RxPermissions
 import ptv.example.zoulinheng.androidutils.constants.TagConstants
 import ptv.example.zoulinheng.androidutils.utils.Utils
-import ptv.example.zoulinheng.androidutils.utils.baseutils.LogUtils
 import java.util.*
 
 /**

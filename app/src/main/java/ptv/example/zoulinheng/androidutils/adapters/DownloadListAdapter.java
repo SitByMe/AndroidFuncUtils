@@ -10,6 +10,8 @@ import android.widget.CompoundButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.blankj.utilcode.util.LogUtils;
+
 import java.util.ArrayList;
 
 import ptv.example.zoulinheng.androidutils.R;
@@ -18,7 +20,6 @@ import ptv.example.zoulinheng.androidutils.download.DownLoadManager;
 import ptv.example.zoulinheng.androidutils.download.TaskInfo;
 import ptv.example.zoulinheng.androidutils.download.dbcontrol.FileHelper;
 import ptv.example.zoulinheng.androidutils.download.dbcontrol.bean.SQLDownLoadInfo;
-import ptv.example.zoulinheng.androidutils.utils.baseutils.LogUtils;
 import ptv.example.zoulinheng.androidutils.utils.viewutils.ToastUtils;
 import ptv.example.zoulinheng.androidutils.utils.zip.ZipUtils;
 

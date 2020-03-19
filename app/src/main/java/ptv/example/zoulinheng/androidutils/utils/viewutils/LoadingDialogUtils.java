@@ -4,10 +4,11 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.view.View;
 
+import com.blankj.utilcode.util.LogUtils;
+
 import java.lang.ref.WeakReference;
 
 import ptv.example.zoulinheng.androidutils.R;
-import ptv.example.zoulinheng.androidutils.utils.baseutils.LogUtils;
 
 /**
  * Created by lhZou on 2018/8/17.

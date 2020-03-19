@@ -1,5 +1,7 @@
 package ptv.example.zoulinheng.androidutils.utils.zip;
 
+import com.blankj.utilcode.util.LogUtils;
+
 import org.apache.tools.zip.ZipEntry;
 import org.apache.tools.zip.ZipOutputStream;
 
@@ -12,7 +14,6 @@ import java.util.zip.CheckedOutputStream;
 import java.util.zip.Deflater;
 
 import ptv.example.zoulinheng.androidutils.Constants;
-import ptv.example.zoulinheng.androidutils.utils.baseutils.LogUtils;
 import ptv.example.zoulinheng.androidutils.utils.deviceutils.FileUtils;
 
 /**

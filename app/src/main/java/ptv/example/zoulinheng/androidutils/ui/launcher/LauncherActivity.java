@@ -8,11 +8,10 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 
-import com.tbruyelle.rxpermissions2.RxPermissions;
+import com.blankj.utilcode.util.LogUtils;
+import com.blankj.utilcode.util.PermissionUtils;
 
-import org.jetbrains.annotations.NotNull;
-
-import java.util.Arrays;
+import java.util.List;
 
 import ptv.example.zoulinheng.androidutils.Constants;
 import ptv.example.zoulinheng.androidutils.R;
@@ -21,27 +20,21 @@ import ptv.example.zoulinheng.androidutils.constants.TagConstants;
 import ptv.example.zoulinheng.androidutils.databinding.ActivityLauncherBinding;
 import ptv.example.zoulinheng.androidutils.ui.BaseActivity;
 import ptv.example.zoulinheng.androidutils.utils.apputils.StartActivityUtils;
-import ptv.example.zoulinheng.androidutils.utils.baseutils.LogUtils;
-import ptv.example.zoulinheng.androidutils.utils.permissions.PermissionHelper;
 import ptv.example.zoulinheng.androidutils.widgets.PermissionPopupWindow;
 
 public class LauncherActivity extends BaseActivity {
     private ActivityLauncherBinding binding;
-    private RxPermissions rxPermissions;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityLauncherBinding.bind(LayoutInflater.from(this).inflate(R.layout.activity_launcher, null));
         setContentView(binding.getRoot());
-        rxPermissions = new RxPermissions(this);
-        rxPermissions.setLogging(true);
 
         dismissListener = new PermissionPopupWindow.PopupDismissListener() {
             @Override
             public void onDismiss(int mode, int operation, int resultCode) {
                 if (operation == PermissionPopupWindow.OPERATION.OPERATION_OK && mode == PermissionPopupWindow.MODE.MODE_NON) {
-                    requestPermissions(rxPermissions);
                 }
             }
         };
@@ -55,31 +48,18 @@ public class LauncherActivity extends BaseActivity {
     }
 
     public void requestPermission(View view) {
-        requestPermissions(rxPermissions);
-    }
+        PermissionUtils.permission(Constants.permissions)
+                .callback(new PermissionUtils.FullCallback() {
+                    @Override
+                    public void onGranted(List<String> permissionsGranted) {
+                        LogUtils.e(TagConstants.TAG_PERMISSION, "onGranted - " + permissionsGranted.toString());
+                    }
 
-    private void requestPermissions(final RxPermissions rxPermissions) {
-/*
-        PermissionsUtils.setOnPermissionsRequestResultListener(rxPermissions, new PermissionsUtils.OnPermissionsRequestResultListener() {
-            @Override
-            public void allDenied() {
-                ToastUtils.showLong("所有权限已被允许");
-            }
-
-            @Override
-            public void hasUnDenied() {
-                ToastUtils.showLong("有需要询问的权限");
-                requestPermissions(rxPermissions);
-            }
-
-            @Override
-            public void hasNeverAgain() {
-                ToastUtils.showLong("有被禁止的权限");
-                String[] alwaysDeniedPermissions = PermissionHelper.getAllAlwaysDeniedPermission(LauncherActivity.this, Constants.permissions);
-                openPermissionPopupWindow(LauncherActivity.this, binding.clMain, alwaysDeniedPermissions, PermissionPopupWindow.MODE.MODE_TO_SETTING, dismissListener);
-            }
-        }).requestEachCombined(Constants.permissions);
-*/
+                    @Override
+                    public void onDenied(List<String> permissionsDeniedForever, List<String> permissionsDenied) {
+                        LogUtils.e(TagConstants.TAG_PERMISSION, "onDenied - " + permissionsDenied.toString());
+                    }
+                }).request();
     }
 
     private PermissionPopupWindow popupWindow;
@@ -104,27 +84,5 @@ public class LauncherActivity extends BaseActivity {
     }
 
     public void enterApp(View view) {
-    }
-
-    public void requestPermission2(View view) {
-        PermissionHelper.Companion.permissions(this,
-                new ptv.example.zoulinheng.androidutils.utils.permissions.PermissionHelper.CallBack() {
-
-                    @Override
-                    public void onGranted(@NotNull String[] permissions) {
-                        LogUtils.e(TagConstants.TAG_PERMISSION, "onGranted - " + Arrays.toString(permissions));
-                    }
-
-                    @Override
-                    public void noAskAgain(@NotNull String[] permissions) {
-                        LogUtils.e(TagConstants.TAG_PERMISSION, "noAskAgain - " + Arrays.toString(permissions));
-                    }
-
-                    @Override
-                    public void shouldShowRequest(@NotNull String[] permissions) {
-                        LogUtils.e(TagConstants.TAG_PERMISSION, "shouldShow - " + Arrays.toString(permissions));
-                    }
-
-                }, Constants.permissions);
     }
 }

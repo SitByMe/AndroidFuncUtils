@@ -28,10 +28,11 @@ import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.blankj.utilcode.util.LogUtils;
+
 import java.lang.reflect.Field;
 
 import ptv.example.zoulinheng.androidutils.utils.Utils;
-import ptv.example.zoulinheng.androidutils.utils.baseutils.LogUtils;
 
 public class ToastUtils {
 
