@@ -1,4 +1,4 @@
-package ptv.example.zoulinheng.androidutils.adapters;
+package ptv.example.zoulinheng.androidutils.ui.download;
 
 import android.content.Context;
 import android.view.LayoutInflater;

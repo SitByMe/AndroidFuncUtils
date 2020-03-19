@@ -32,7 +32,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.DownloadDemoActivity" />
+        <activity android:name=".ui.download.DownloadDemoActivity" />
 
         <service android:name=".download.DownLoadService" />
     </application>

@@ -3,7 +3,7 @@ package ptv.example.zoulinheng.androidutils.utils.baseutils;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import ptv.example.zoulinheng.androidutils.enums.DateStyle;
+import ptv.example.zoulinheng.androidutils.constants.enums.DateStyle;
 
 /**
  * Created by lhZou on 2018/6/26.

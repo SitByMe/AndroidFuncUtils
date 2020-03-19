@@ -8,7 +8,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import ptv.example.zoulinheng.androidutils.Constants;
+import ptv.example.zoulinheng.androidutils.constants.PerConstants;
 import ptv.example.zoulinheng.androidutils.download.DownLoadManager;
 import ptv.example.zoulinheng.androidutils.download.TaskInfo;
 import ptv.example.zoulinheng.androidutils.utils.baseutils.NonUtils;
@@ -19,8 +19,8 @@ import ptv.example.zoulinheng.androidutils.utils.deviceutils.FileUtils;
  * desc:文件操作辅助类
  */
 public class FileHelper {
-    private static String userID = Constants.USER_ROOT;
-    private static String baseDownloadFilePath = Constants.BASE_DOWNLOAD_PATH;
+    private static String userID = PerConstants.USER_ROOT;
+    private static String baseDownloadFilePath = PerConstants.BASE_DOWNLOAD_PATH;
     private static String downloadFileSavePath = baseDownloadFilePath.concat("/").concat(userID).concat("/FILETEMP");
     /**
      * 下载文件的临时路径
@@ -260,7 +260,7 @@ public class FileHelper {
      * @return
      */
     public static String getFileUnZipPath(String fileId) {
-        return Constants.BASE_DOWNLOAD_UN_ZIP_PATH.concat("/").concat(fileId);
+        return PerConstants.BASE_DOWNLOAD_UN_ZIP_PATH.concat("/").concat(fileId);
     }
 
     /**
@@ -270,6 +270,6 @@ public class FileHelper {
      * @return
      */
     public static String getFileZipFilePath(String fileId) {
-        return Constants.BASE_DOWNLOAD_ZIP_PATH.concat("/").concat(fileId);
+        return PerConstants.BASE_DOWNLOAD_ZIP_PATH.concat("/").concat(fileId);
     }
 }

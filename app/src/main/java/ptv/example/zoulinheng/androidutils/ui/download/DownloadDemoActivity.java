@@ -1,4 +1,4 @@
-package ptv.example.zoulinheng.androidutils.activities;
+package ptv.example.zoulinheng.androidutils.ui.download;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -16,12 +16,11 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import ptv.example.zoulinheng.androidutils.Constants;
+import ptv.example.zoulinheng.androidutils.constants.PerConstants;
 import ptv.example.zoulinheng.androidutils.R;
 import ptv.example.zoulinheng.androidutils.download.DownLoadManager;
 import ptv.example.zoulinheng.androidutils.download.DownLoadService;
 import ptv.example.zoulinheng.androidutils.download.TaskInfo;
-import ptv.example.zoulinheng.androidutils.adapters.DownloadListAdapter;
 import ptv.example.zoulinheng.androidutils.utils.permissions.PermissionsUtils;
 
 public class DownloadDemoActivity extends AppCompatActivity {
@@ -53,7 +52,7 @@ public class DownloadDemoActivity extends AppCompatActivity {
             /*获取下载管理器*/
             manager = DownLoadService.getDownLoadManager();
             /*设置用户ID，客户端切换用户时可以显示相应用户的下载任务*/
-            manager.changeUser(Constants.USER_ROOT);
+            manager.changeUser(PerConstants.USER_ROOT);
             /*断点续传需要服务器的支持，设置该项时要先确保服务器支持断点续传功能*/
             manager.setSupportBreakpoint(true);
             adapter = new DownloadListAdapter(DownloadDemoActivity.this, manager);
@@ -63,7 +62,7 @@ public class DownloadDemoActivity extends AppCompatActivity {
     };
 
     public void addDownloadTask(View view) {
-        if (PermissionsUtils.hasUnDeniedPermission(Constants.storagePermissions)) {
+        if (PermissionsUtils.hasUnDeniedPermission(PerConstants.storagePermissions)) {
             PermissionsUtils.toSettingAct(this);
             return;
         }
@@ -100,11 +99,11 @@ public class DownloadDemoActivity extends AppCompatActivity {
                         adapter.setListData(manager.getAllTask(true));
 
                     }
-                }).setNegativeButton(Constants.USER_ROOT, new DialogInterface.OnClickListener() {
+                }).setNegativeButton(PerConstants.USER_ROOT, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                manager.changeUser(Constants.USER_ROOT);
-                btnUser.setText("用户 : ".concat(Constants.USER_ROOT));
+                manager.changeUser(PerConstants.USER_ROOT);
+                btnUser.setText("用户 : ".concat(PerConstants.USER_ROOT));
                 adapter.setListData(manager.getAllTask(true));
             }
         }).show();

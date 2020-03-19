@@ -1,4 +1,4 @@
-package ptv.example.zoulinheng.androidutils.enums;
+package ptv.example.zoulinheng.androidutils.constants.enums;
 
 /**
  * Created by lhZou on 2018/6/26.

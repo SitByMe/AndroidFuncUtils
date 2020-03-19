@@ -2,10 +2,11 @@ package ptv.example.zoulinheng.androidutils.widgets;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
+
 import androidx.annotation.IntDef;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,55 +19,33 @@ import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import com.blankj.utilcode.constant.PermissionConstants;
 
 import ptv.example.zoulinheng.androidutils.R;
-import ptv.example.zoulinheng.androidutils.utils.helpers.PermissionHelper;
-import ptv.example.zoulinheng.androidutils.utils.permissions.PermissionsPageManager;
-
-import static ptv.example.zoulinheng.androidutils.widgets.PermissionPopupWindow.MODE.MODE_NON;
-import static ptv.example.zoulinheng.androidutils.widgets.PermissionPopupWindow.MODE.MODE_TO_SETTING;
-import static ptv.example.zoulinheng.androidutils.widgets.PermissionPopupWindow.OPERATION.OPERATION_CLOSE;
-import static ptv.example.zoulinheng.androidutils.widgets.PermissionPopupWindow.OPERATION.OPERATION_OK;
+import ptv.example.zoulinheng.androidutils.helper.PermissionHelper;
 
 /**
- * Created by lhZou on 2017/11/23.
- * desc:权限提示窗口
+ * Created by zoulinheng on 2017/11/23.
+ * desc:请求权限结果提示窗口
  */
 public class PermissionPopupWindow extends PopupWindow {
-    public static final int RESULT_CODE_SUCCESS = 0x99;
-    public static final int RESULT_CODE_FAIL = 0x98;
-    public static final int RESULT_CODE_QUIT = 0x97;
-
-    private int resultCode;
-
-    private View contentView;
-
-    private ViewHolder holder;
-
-    private String[] permissions;
-    private String[] permissionNames;
-    private @MODE
-    int mode;//1:只提示  其他:跳转到权限设置页面
+    private @PermissionConstants.Permission
+    String[] permissionNames;
     private @OPERATION
     int operation;
-
-    private Map<String, String> map = new HashMap<>();
+    private @CLOSE_RESULT
+    int closeResult;
 
     public interface PopupDismissListener {
-        void onDismiss(@MODE int mode, @OPERATION int operation, int resultCode);
+        void onDismiss(boolean mForce, @OPERATION int operation, @CLOSE_RESULT int closeResult);
     }
 
-    public PermissionPopupWindow(final Activity activity, String[] permissions, @MODE int mode, final PopupDismissListener dismissListener) {
-        this.mContext = activity;
-        this.permissions = permissions;
-        this.mode = mode;
-
+    /**
+     * @param force 是否强制跳转到权限设置页面
+     */
+    public PermissionPopupWindow(final Activity activity, @PermissionConstants.Permission String[] permissions, final boolean force, final PopupDismissListener dismissListener) {
         LayoutInflater inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        contentView = inflater.inflate(R.layout.activity_open_permission, null);
+        View contentView = inflater.inflate(R.layout.activity_open_permission, null);
         int h = activity.getWindowManager().getDefaultDisplay().getHeight();
         int w = activity.getWindowManager().getDefaultDisplay().getWidth();
         this.setContentView(contentView);
@@ -74,14 +53,14 @@ public class PermissionPopupWindow extends PopupWindow {
         this.setHeight(LayoutParams.WRAP_CONTENT);
         this.setFocusable(false);
         this.setOutsideTouchable(false);
-        this.setBackgroundDrawable(mContext.getResources().getDrawable(R.drawable.shape_bg_frame_primary_permission));
+        this.setBackgroundDrawable(activity.getResources().getDrawable(R.drawable.shape_bg_frame_primary_permission));
         // 刷新状态
         this.update();
 
         this.setOnDismissListener(new OnDismissListener() {
             @Override
             public void onDismiss() {
-                dismissListener.onDismiss(PermissionPopupWindow.this.mode, operation, resultCode);
+                dismissListener.onDismiss(force, operation, closeResult);
             }
         });
 
@@ -89,61 +68,38 @@ public class PermissionPopupWindow extends PopupWindow {
         lp.alpha = 0.7f;
         activity.getWindow().setAttributes(lp);
 
-        holder = new ViewHolder(contentView);
+        ViewHolder holder = new ViewHolder(contentView);
 
-        permissionNames = PermissionHelper.getPermissionNames(this.permissions);
-        for (int i = 0; i < this.permissions.length; i++) {
-            map.put(this.permissions[i], permissionNames != null && permissionNames.length != 0 ? permissionNames[i % permissionNames.length] : "");
-        }
+        permissionNames = PermissionHelper.getPermissionNames(permissions);
 
         holder.gvPermissions.setAdapter(new PermissionAdapter(activity));
 
-        holder.ok.setText(mode == MODE_NON ? "确定" : "去开启");
-        holder.ivClose.setOnClickListener(new View.OnClickListener() {
+        holder.ok.setText("去开启");
+        holder.ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                operation = OPERATION_CLOSE;
-                resultCode = RESULT_CODE_QUIT;
+                operation = OPERATION.OPERATION_OK;
+                closeResult = CLOSE_RESULT.CLOSE_OPTION_TO_SETTING_ACT;
                 dismiss();
             }
         });
 
-        holder.ok.setOnClickListener(new View.OnClickListener() {
+        holder.ivClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                operation = OPERATION_OK;
-                if (PermissionPopupWindow.this.mode == MODE_TO_SETTING) {
-                    activity.startActivity(PermissionsPageManager.getIntent(activity));
-                    resultCode = 0;
-                    dismiss();
-                } else if (PermissionPopupWindow.this.mode == MODE_NON) {
-                    String[] per = PermissionHelper.getDeniedPermissions(activity, PermissionPopupWindow.this.permissions);
-                    List<String> pers = new ArrayList<>();
-                    StringBuilder sb = new StringBuilder("");
-                    for (String s : per) {
-                        if (PermissionHelper.hasAlwaysDeniedPermission(activity, s)) {
-                            sb.append(map.get(s));
-                            pers.add(s);
-                        }
-                    }
-                    if (sb.toString().trim().length() != 0) {
-                        Intent intent = new Intent();
-                        intent.putExtra("permissions", pers.toArray(new String[pers.size()]));
-                        resultCode = RESULT_CODE_FAIL;
-                        dismiss();
-                    } else {
-                        resultCode = RESULT_CODE_SUCCESS;
-                        dismiss();
-                    }
+                operation = OPERATION.OPERATION_CLOSE;
+                if (force) {
+                    closeResult = CLOSE_RESULT.CLOSE_OPTION_REQUEST_AGAIN;
+                } else {
+                    closeResult = CLOSE_RESULT.CLOSE_OPTION_NON;
                 }
+                dismiss();
             }
         });
     }
 
     /**
      * 显示popupWindow
-     *
-     * @param parent
      */
     public void showPopupWindow(View parent) {
         if (!this.isShowing()) {
@@ -153,14 +109,10 @@ public class PermissionPopupWindow extends PopupWindow {
         }
     }
 
-    private Activity mContext;
-
     public class PermissionAdapter extends BaseAdapter {
         private LayoutInflater inflater;
 
-        private PermissionAdapter.ContentViewHolder holder;
-
-        public PermissionAdapter(Context context) {
+        PermissionAdapter(Context context) {
             inflater = LayoutInflater.from(context);
         }
 
@@ -181,6 +133,7 @@ public class PermissionPopupWindow extends PopupWindow {
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
+            ContentViewHolder holder;
             if (convertView == null) {
                 convertView = inflater.inflate(R.layout.layout_permissions_notice, null);
                 holder = new PermissionAdapter.ContentViewHolder(convertView);
@@ -193,7 +146,7 @@ public class PermissionPopupWindow extends PopupWindow {
             return convertView;
         }
 
-        public class ContentViewHolder extends RecyclerView.ViewHolder {
+        class ContentViewHolder extends RecyclerView.ViewHolder {
             ImageView ivIcon;
             TextView tvPermissionName;
 
@@ -217,15 +170,20 @@ public class PermissionPopupWindow extends PopupWindow {
         }
     }
 
-    @IntDef({MODE_TO_SETTING, MODE_NON})
-    public @interface MODE {
-        int MODE_TO_SETTING = 0;
-        int MODE_NON = 1;
-    }
-
-    @IntDef({OPERATION_CLOSE, OPERATION_OK})
+    @IntDef({OPERATION.OPERATION_CLOSE, OPERATION.OPERATION_OK})
     public @interface OPERATION {
         int OPERATION_CLOSE = 0;
         int OPERATION_OK = 1;
+    }
+
+    @IntDef({CLOSE_RESULT.CLOSE_OPTION_REQUEST_AGAIN,
+            CLOSE_RESULT.CLOSE_OPTION_TO_SETTING_ACT,
+            CLOSE_RESULT.CLOSE_OPTION_NON,
+            CLOSE_RESULT.CLOSE_OPTION_EXIT})
+    public @interface CLOSE_RESULT {
+        int CLOSE_OPTION_REQUEST_AGAIN = 0x99;
+        int CLOSE_OPTION_TO_SETTING_ACT = 0x98;
+        int CLOSE_OPTION_NON = 0x97;
+        int CLOSE_OPTION_EXIT = 0x96;
     }
 }

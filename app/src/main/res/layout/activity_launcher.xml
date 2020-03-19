@@ -11,8 +11,14 @@
     <androidx.appcompat.widget.AppCompatButton
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="requestPermission"
+        android:onClick="requestPermissionUnForce"
         android:text="申请权限" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="requestPermissionForce"
+        android:text="强制申请权限" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:layout_width="match_parent"

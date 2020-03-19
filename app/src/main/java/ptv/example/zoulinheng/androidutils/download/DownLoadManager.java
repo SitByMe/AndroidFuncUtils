@@ -4,7 +4,7 @@ package ptv.example.zoulinheng.androidutils.download;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import ptv.example.zoulinheng.androidutils.Constants;
+import ptv.example.zoulinheng.androidutils.constants.PerConstants;
 import ptv.example.zoulinheng.androidutils.download.DownLoader.*;
 import ptv.example.zoulinheng.androidutils.download.dbcontrol.DataKeeper;
 import ptv.example.zoulinheng.androidutils.download.dbcontrol.FileHelper;
@@ -37,7 +37,7 @@ public class DownLoadManager {
     private ThreadPoolExecutor pool;
 
     // 用户ID,默认值man
-    private String userID = Constants.USER_ROOT;
+    private String userID = PerConstants.USER_ROOT;
 
     private SharedPreferences sharedPreferences;
 
@@ -67,7 +67,7 @@ public class DownLoadManager {
             }
         };
         sharedPreferences = myContext.getSharedPreferences("UserInfo", Context.MODE_PRIVATE);
-        userID = sharedPreferences.getString("UserID", Constants.USER_ROOT);
+        userID = sharedPreferences.getString("UserID", PerConstants.USER_ROOT);
         recoverData(myContext, userID);
     }
 

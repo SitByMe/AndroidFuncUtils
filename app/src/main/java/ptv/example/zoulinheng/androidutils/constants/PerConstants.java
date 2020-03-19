@@ -1,13 +1,13 @@
-package ptv.example.zoulinheng.androidutils;
+package ptv.example.zoulinheng.androidutils.constants;
 
 import android.Manifest;
 import android.os.Environment;
 
 /**
- * Created by lhZou on 2018/8/28.
+ * Created by zoulinheng on 2018/8/28.
  * desc:
  */
-public class Constants {
+public class PerConstants {
 
     public static final String[] permissions = new String[]{
             Manifest.permission.CALL_PHONE,

@@ -13,7 +13,7 @@ import java.util.zip.CRC32;
 import java.util.zip.CheckedOutputStream;
 import java.util.zip.Deflater;
 
-import ptv.example.zoulinheng.androidutils.Constants;
+import ptv.example.zoulinheng.androidutils.constants.PerConstants;
 import ptv.example.zoulinheng.androidutils.utils.deviceutils.FileUtils;
 
 /**
@@ -81,9 +81,9 @@ public class ZipUtils {
     }
 
     private static void zip(String zipFileName, File inputFile) throws Exception {
-        if (!FileUtils.isFileExists(Constants.BASE_DOWNLOAD_ZIP_PATH)) {
-            if (FileUtils.createOrExistsDir(Constants.BASE_DOWNLOAD_ZIP_PATH)) {
-                LogUtils.i("创建文件夹-".concat(Constants.BASE_DOWNLOAD_ZIP_PATH).concat("-成功"));
+        if (!FileUtils.isFileExists(PerConstants.BASE_DOWNLOAD_ZIP_PATH)) {
+            if (FileUtils.createOrExistsDir(PerConstants.BASE_DOWNLOAD_ZIP_PATH)) {
+                LogUtils.i("创建文件夹-".concat(PerConstants.BASE_DOWNLOAD_ZIP_PATH).concat("-成功"));
             }
         }
         FileOutputStream f = new FileOutputStream(zipFileName);
