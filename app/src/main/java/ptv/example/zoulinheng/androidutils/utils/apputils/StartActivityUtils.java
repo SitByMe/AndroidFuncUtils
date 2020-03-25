@@ -8,7 +8,7 @@ import android.os.Bundle;
 import java.util.Map;
 
 /**
- * Created by lhZou on 2018/4/26.
+ * Created by zoulinheng on 2018/4/26.
  * desc:页面跳转工具类
  */
 public class StartActivityUtils {

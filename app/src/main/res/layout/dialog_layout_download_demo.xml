@@ -5,14 +5,14 @@
     android:orientation="vertical">
 
     <EditText
-        android:id="@+id/file_name"
+        android:id="@+id/et_file_name"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_margin="3dp"
         android:hint="文件名" />
 
     <EditText
-        android:id="@+id/file_url"
+        android:id="@+id/et_file_url"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_margin="3dp"

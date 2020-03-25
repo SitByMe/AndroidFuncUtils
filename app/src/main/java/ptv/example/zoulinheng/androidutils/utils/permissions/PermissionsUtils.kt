@@ -127,8 +127,8 @@ class PermissionsUtils private constructor(rxPermissions: RxPermissions, resultL
          * @return
          */
         @JvmStatic
-        fun hasUnDeniedPermission(vararg deniedPermissions: String): Boolean {
-            return getDeniedPermissions(*deniedPermissions).isNotEmpty()
+        fun hasDeniedPermission(vararg deniedPermissions: String): Boolean {
+            return Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && getDeniedPermissions(*deniedPermissions).isNotEmpty()
         }
 
         /**
@@ -160,7 +160,7 @@ class PermissionsUtils private constructor(rxPermissions: RxPermissions, resultL
          * @return true 已经授予该权限 ，false未授予该权限
          */
         fun hasPermission(permission: String): Boolean {
-            return !hasUnDeniedPermission(permission)
+            return !hasDeniedPermission(permission)
         }
 
         /**

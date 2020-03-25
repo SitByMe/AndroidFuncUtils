@@ -13,7 +13,7 @@ import ptv.example.zoulinheng.androidutils.databinding.ActivityLauncherBinding
 import ptv.example.zoulinheng.androidutils.helper.PermissionHelper.OnRequestCallBack
 import ptv.example.zoulinheng.androidutils.helper.PermissionHelper.request
 import ptv.example.zoulinheng.androidutils.ui.BaseActivity
-import ptv.example.zoulinheng.androidutils.ui.download.DownloadDemoActivity
+import ptv.example.zoulinheng.androidutils.ui.main.MainActivity
 import ptv.example.zoulinheng.androidutils.utils.apputils.StartActivityUtils
 import ptv.example.zoulinheng.androidutils.utils.permissions.PermissionsPageManager
 import ptv.example.zoulinheng.androidutils.widgets.PermissionPopupWindow
@@ -40,6 +40,13 @@ class LauncherActivity : BaseActivity() {
         requestPermission(true)
     }
 
+    fun enterApp(view: View) {
+        StartActivityUtils.startActivity(this, MainActivity::class.java)
+    }
+
+    /**
+     * 如果[force]为true，则强制需要获取权限后才能执行下一步操作，反之则仅仅执行请求权限的操作
+     */
     private fun requestPermission(force: Boolean) {
         request(this, object : OnRequestCallBack {
             override fun allGranted() {
@@ -65,10 +72,9 @@ class LauncherActivity : BaseActivity() {
     }
 
     private var popupWindow: PermissionPopupWindow? = null
+
     /**
-     * 打开授权弹窗
-     *
-     * @param force 是否强制跳转到权限设置页面
+     * 打开授权弹窗，当[force]为true时，强制需要跳转到权限设置页面
      */
     private fun openPermissionPopupWindow(parent: View, @PermissionConstants.Permission permissions: Array<String>, force: Boolean) {
         val ppw = PermissionPopupWindow(this@LauncherActivity, permissions, force,
@@ -83,10 +89,4 @@ class LauncherActivity : BaseActivity() {
         popupWindow = ppw
         ppw.showPopupWindow(parent)
     }
-
-    fun downloadDemo(view: View) {
-        StartActivityUtils.startActivity(this, DownloadDemoActivity::class.java)
-    }
-
-    fun enterApp(view: View) {}
 }

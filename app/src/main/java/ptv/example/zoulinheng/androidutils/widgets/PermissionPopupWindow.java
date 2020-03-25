@@ -36,6 +36,8 @@ public class PermissionPopupWindow extends PopupWindow {
     private @CLOSE_RESULT
     int closeResult;
 
+    private Activity activity;
+
     public interface PopupDismissListener {
         void onDismiss(boolean mForce, @OPERATION int operation, @CLOSE_RESULT int closeResult);
     }
@@ -44,6 +46,7 @@ public class PermissionPopupWindow extends PopupWindow {
      * @param force 是否强制跳转到权限设置页面
      */
     public PermissionPopupWindow(final Activity activity, @PermissionConstants.Permission String[] permissions, final boolean force, final PopupDismissListener dismissListener) {
+        this.activity = activity;
         LayoutInflater inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View contentView = inflater.inflate(R.layout.activity_open_permission, null);
         int h = activity.getWindowManager().getDefaultDisplay().getHeight();
@@ -51,7 +54,7 @@ public class PermissionPopupWindow extends PopupWindow {
         this.setContentView(contentView);
         this.setWidth(5 * w / 6 + 50);
         this.setHeight(LayoutParams.WRAP_CONTENT);
-        this.setFocusable(false);
+        this.setFocusable(true);
         this.setOutsideTouchable(false);
         this.setBackgroundDrawable(activity.getResources().getDrawable(R.drawable.shape_bg_frame_primary_permission));
         // 刷新状态
@@ -96,6 +99,14 @@ public class PermissionPopupWindow extends PopupWindow {
                 dismiss();
             }
         });
+    }
+
+    @Override
+    public void dismiss() {
+        super.dismiss();
+        WindowManager.LayoutParams lp = activity.getWindow().getAttributes();
+        lp.alpha = 1.0f;
+        activity.getWindow().setAttributes(lp);
     }
 
     /**
